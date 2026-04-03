@@ -1,0 +1,351 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;500;600;700;800&display=swap');
+
+/* ─── CSS Variables ─────────────────────────────────────────────── */
+:root {
+  --bg:         #0a0a0f;
+  --surface:    #111118;
+  --card:       #16161f;
+  --border:     #2a2a3d;
+  --accent:     #6e56cf;
+  --accent-2:   #9d7aea;
+  --glow:       rgba(110, 86, 207, 0.35);
+  --text:       #e8e6f0;
+  --muted:      #7a7890;
+  --link:       #a78bfa;
+  --danger:     #f472b6;
+  --radius:     14px;
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── Reset & Base ───────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  /* subtle grid texture */
+  background-image:
+    linear-gradient(rgba(110,86,207,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(110,86,207,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ─── Header ─────────────────────────────────────────────────────── */
+#heading {
+  position: relative;
+  text-align: center;
+  padding: 3.5rem 1.5rem 2.5rem;
+  overflow: hidden;
+}
+
+#heading::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 120% at 50% -10%, rgba(110,86,207,0.28) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+#heading h1 {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, #e8e6f0 0%, #a78bfa 50%, #6e56cf 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+}
+
+#heading h1::after {
+  content: 'GitHub Profile Viewer';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #e8e6f0 0%, #a78bfa 50%, #6e56cf 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: blur(18px);
+  opacity: 0.4;
+  z-index: -1;
+}
+
+/* ─── Controls Container ─────────────────────────────────────────── */
+.butt {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Controls row grouping */
+.butt > input,
+.butt > button {
+  display: block;
+}
+
+/* pair inputs+buttons visually */
+.butt input[type="number"],
+.butt input[type="number"] + button {
+  margin-bottom: 0;
+}
+
+/* ─── Inputs ─────────────────────────────────────────────────────── */
+input[type="number"],
+input[type="text"] {
+  width: 100%;
+  padding: 0.85rem 1.25rem;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  caret-color: var(--accent-2);
+}
+
+input[type="number"]::placeholder,
+input[type="text"]::placeholder {
+  color: var(--muted);
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--glow);
+}
+
+/* remove number spinner arrows */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+/* ─── Buttons ────────────────────────────────────────────────────── */
+button {
+  width: 100%;
+  padding: 0.85rem 1.5rem;
+  background: linear-gradient(135deg, var(--accent) 0%, #8b6de0 100%);
+  border: none;
+  border-radius: var(--radius);
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
+  box-shadow: 0 4px 20px rgba(110,86,207,0.4);
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(110,86,207,0.55);
+  filter: brightness(1.08);
+}
+
+button:hover::before {
+  opacity: 1;
+}
+
+button:active {
+  transform: translateY(0px);
+  box-shadow: 0 3px 12px rgba(110,86,207,0.4);
+}
+
+/* ─── Control Pairs Layout ───────────────────────────────────────── */
+/* wrap each input+button in a styled group feel */
+.butt {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+/* ─── Profile Grid ───────────────────────────────────────────────── */
+.profile {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+/* ─── Cards ──────────────────────────────────────────────────────── */
+.cards {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: 18px;
+  padding: 1.75rem 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+  animation: cardIn 0.4s ease both;
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.cards::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  left: -40%;
+  width: 180%;
+  height: 180%;
+  background: radial-gradient(circle at 50% 50%, var(--glow) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.cards:hover {
+  transform: translateY(-5px) scale(1.02);
+  border-color: var(--accent);
+  box-shadow: 0 12px 36px rgba(110,86,207,0.3), 0 0 0 1px var(--accent);
+}
+
+.cards:hover::before {
+  opacity: 1;
+}
+
+/* Stagger animation for multiple cards */
+.cards:nth-child(1)  { animation-delay: 0.04s; }
+.cards:nth-child(2)  { animation-delay: 0.08s; }
+.cards:nth-child(3)  { animation-delay: 0.12s; }
+.cards:nth-child(4)  { animation-delay: 0.16s; }
+.cards:nth-child(5)  { animation-delay: 0.20s; }
+.cards:nth-child(6)  { animation-delay: 0.24s; }
+.cards:nth-child(7)  { animation-delay: 0.28s; }
+.cards:nth-child(8)  { animation-delay: 0.32s; }
+.cards:nth-child(9)  { animation-delay: 0.36s; }
+.cards:nth-child(10) { animation-delay: 0.40s; }
+
+/* ─── Avatar ─────────────────────────────────────────────────────── */
+.cards img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2.5px solid var(--border);
+  transition: border-color var(--transition), box-shadow var(--transition);
+  display: block;
+}
+
+.cards:hover img {
+  border-color: var(--accent-2);
+  box-shadow: 0 0 0 4px var(--glow), 0 0 16px rgba(110,86,207,0.5);
+}
+
+/* ─── Username ───────────────────────────────────────────────────── */
+.name {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* ─── Profile Link ───────────────────────────────────────────────── */
+.cards a {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--link);
+  text-decoration: none;
+  padding: 0.4rem 1rem;
+  border: 1.5px solid rgba(167,139,250,0.3);
+  border-radius: 99px;
+  background: rgba(110,86,207,0.1);
+  transition: background var(--transition), border-color var(--transition), color var(--transition), box-shadow var(--transition);
+}
+
+.cards a:hover {
+  background: rgba(110,86,207,0.25);
+  border-color: var(--accent-2);
+  color: #fff;
+  box-shadow: 0 0 12px var(--glow);
+}
+
+/* ─── Divider between control groups ────────────────────────────── */
+.butt > input:nth-of-type(2) {
+  margin-top: 0.5rem;
+  border-top: none;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* ─── Responsive ─────────────────────────────────────────────────── */
+@media (min-width: 600px) {
+  .butt {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* full-width profile grid wrapper */
+  .profile {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 900px) {
+  .profile {
+    grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+  }
+}
